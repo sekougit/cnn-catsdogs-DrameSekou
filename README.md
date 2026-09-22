@@ -1,6 +1,6 @@
 # CNN From Scratch vs Transfer Learning — Cats vs Dogs
 
-## 1. Présentation du projet
+## Présentation du projet
 
 Ce projet a été réalisé dans le cadre du cours **Deep Learning 1** du Master Intelligence Artificielle.
 
@@ -27,7 +27,7 @@ Des courbes d'apprentissage et des matrices de confusion sont également utilis�
 
 ---
 
-# 2. Objectifs
+#  Objectifs
 
 Les objectifs du projet sont les suivants :
 
@@ -44,7 +44,7 @@ Les objectifs du projet sont les suivants :
 
 ---
 
-# 3. Environnement
+# Environnement
 
 ## 3.1 Technologies utilisées
 
@@ -60,7 +60,7 @@ Le projet utilise :
 * Jupyter Notebook ;
 * Google Colab / GPU CUDA lorsque disponible.
 
-## 3.2 Installation
+## Installation
 
 Les dépendances nécessaires sont regroupées dans le fichier :
 
@@ -76,7 +76,7 @@ pip install -r requirements.txt
 
 ---
 
-# 4. Utilisation du GPU
+#  Utilisation du GPU
 
 Le programme détecte automatiquement le périphérique disponible :
 
@@ -94,7 +94,7 @@ Sinon, l'entraînement est effectué sur CPU.
 
 ---
 
-# 5. Organisation du projet
+# Organisation du projet
 
 L'arborescence actuelle du projet est :
 
@@ -152,7 +152,7 @@ notebook.ipynb
 
 ---
 
-# 6. Organisation des données
+# Organisation des données
 
 Les données sont placées dans le dossier :
 
@@ -184,7 +184,7 @@ dog → 1
 
 ---
 
-# 7. Configuration des chemins
+# Configuration des chemins
 
 Les chemins du projet sont définis automatiquement à partir du répertoire courant :
 
@@ -228,7 +228,7 @@ Cette organisation permet d'éviter d'utiliser des chemins absolus dépendant de
 
 ---
 
-# 8. Jeu de données
+# Jeu de données
 
 Le jeu de données contient :
 
@@ -258,7 +258,7 @@ Cela permet de comparer les expériences dans des conditions identiques.
 
 ---
 
-# 9. Reproductibilité
+# Reproductibilité
 
 Une graine aléatoire fixe est utilisée :
 
@@ -287,7 +287,7 @@ Cette configuration permet d'obtenir le même découpage des données lors des d
 
 ---
 
-# 10. Prétraitement et augmentation
+# Prétraitement et augmentation
 
 Les images sont redimensionnées à :
 
@@ -301,7 +301,7 @@ Le batch utilisé est :
 32 images
 ```
 
-## 10.1 Transformation pour l'entraînement
+## Transformation pour l'entraînement
 
 Les images utilisées pour l'entraînement subissent les transformations suivantes :
 
@@ -316,7 +316,7 @@ train_transforms = transforms.Compose([
 
 Les transformations permettent de créer des variations des images originales et de réduire le risque de surapprentissage.
 
-## 10.2 Transformation pour la validation et le test
+## Transformation pour la validation et le test
 
 ```python
 val_test_transforms = transforms.Compose([
@@ -329,7 +329,7 @@ Aucune augmentation aléatoire n'est appliquée à la validation ou au test.
 
 ---
 
-# 11. Normalisation pour le Transfer Learning
+# Normalisation pour le Transfer Learning
 
 Pour ResNet18, une normalisation correspondant aux statistiques d'ImageNet est utilisée :
 
@@ -379,9 +379,9 @@ Cette normalisation permet de conserver un prétraitement compatible avec celui 
 
 ---
 
-# 12. Expérience 1 — CNN From Scratch
+# Expérience 1 — CNN From Scratch
 
-## 12.1 Architecture
+## Architecture
 
 Le modèle `ScratchCNN` est construit entièrement avec PyTorch.
 
@@ -427,7 +427,7 @@ Cette architecture respecte la contrainte d'avoir au minimum trois blocs convolu
 
 ---
 
-# 13. Régularisation du CNN
+# Régularisation du CNN
 
 Deux techniques de régularisation sont utilisées.
 
@@ -453,7 +453,7 @@ Elle permet de réduire le risque de surapprentissage.
 
 ---
 
-# 14. Paramètres du CNN
+# Paramètres du CNN
 
 Les principaux paramètres utilisés sont :
 
@@ -478,9 +478,9 @@ Deux expériences sont réalisées avec le CNN :
 
 ---
 
-# 15. Optimisation du CNN
+# Optimisation du CNN
 
-## 15.1 Adam
+## Adam
 
 ```python
 optimizer_adam = optim.Adam(
@@ -495,7 +495,7 @@ Configuration :
 Learning rate = 0.001
 ```
 
-## 15.2 SGD
+## SGD
 
 ```python
 optimizer_sgd = optim.SGD(
@@ -514,7 +514,7 @@ Momentum = 0.9
 
 ---
 
-# 16. Scheduler
+# Scheduler
 
 Le scheduler utilisé est `StepLR` :
 
@@ -530,7 +530,7 @@ Le learning rate est réduit d'un facteur 10 tous les trois epochs.
 
 ---
 
-# 17. Fonction de perte
+# Fonction de perte
 
 La fonction de perte utilisée est :
 
@@ -549,9 +549,9 @@ La même fonction de perte est utilisée pour le CNN et le Transfer Learning.
 
 ---
 
-# 18. Expérience 2 — Transfer Learning
+# Expérience 2 — Transfer Learning
 
-## 18.1 ResNet18
+## ResNet18
 
 Le deuxième modèle est basé sur ResNet18 pré-entraîné sur ImageNet :
 
@@ -565,7 +565,7 @@ Le pré-entraînement permet d'exploiter des représentations visuelles apprises
 
 ---
 
-# 19. Adaptation de ResNet18
+# Adaptation de ResNet18
 
 La couche de classification originale est remplacée par une nouvelle tête :
 
@@ -602,7 +602,7 @@ Cat / Dog
 
 ---
 
-# 20. Stratégie de Transfer Learning
+# Stratégie de Transfer Learning
 
 Le backbone ResNet18 est gelé :
 
@@ -624,7 +624,7 @@ Aucun fine-tuning du backbone n'est effectué dans cette expérimentation.
 
 ---
 
-# 21. Paramètres du Transfer Learning
+# Paramètres du Transfer Learning
 
 | Paramètre           |           Valeur |
 | ------------------- | ---------------: |
@@ -649,9 +649,9 @@ Deux expériences sont réalisées :
 
 ---
 
-# 22. Optimisation du Transfer Learning
+# Optimisation du Transfer Learning
 
-## 22.1 Adam
+## Adam
 
 ```python
 optimizer_tl = optim.Adam(
@@ -663,7 +663,7 @@ optimizer_tl = optim.Adam(
 )
 ```
 
-## 22.2 SGD
+## SGD
 
 Pour comparer correctement SGD à Adam, un nouveau ResNet18 pré-entraîné est initialisé :
 
@@ -692,7 +692,7 @@ Les deux expériences partent donc de poids ResNet18 pré-entraînés et indépe
 
 ---
 
-# 23. Résumé des quatre expériences
+# Résumé des quatre expériences
 
 | Expérience | Modèle     | Optimiseur |    LR | Momentum |
 | ---------- | ---------- | ---------- | ----: | -------: |
@@ -716,7 +716,7 @@ Paramètres communs :
 
 ---
 
-# 24. Entraînement
+# Entraînement
 
 Le processus d'entraînement suit les étapes suivantes :
 
@@ -752,7 +752,7 @@ Les historiques des différentes expériences sont également exportés dans des
 
 ---
 
-# 25. Historiques des métriques
+# Historiques des métriques
 
 Les historiques sont sauvegardés dans quatre fichiers Excel :
 
@@ -784,7 +784,7 @@ Ces fichiers permettent de conserver les métriques obtenues pendant les différ
 
 ---
 
-# 26. Checkpoints
+# Checkpoints
 
 Les modèles sont sauvegardés dans :
 
@@ -820,87 +820,26 @@ Les checkpoints permettent également de reprendre l'entraînement après une in
 
 ---
 
-# 27. Rechargement des modèles
+## Résume des methodes selon les optimizers
 
-## CNN avec Adam
-
-```python
-checkpoint = torch.load(
-    "checkpoints/scratch_cnn_best_adam.pth",
-    map_location=device
-)
-
-model.load_state_dict(
-    checkpoint["model_state_dict"]
-)
-```
-
-## CNN avec SGD
-
-```python
-checkpoint = torch.load(
-    "checkpoints/scratch_cnn_best_sgd.pth",
-    map_location=device
-)
-
-model.load_state_dict(
-    checkpoint["model_state_dict"]
-)
-```
-
-## ResNet18 avec Adam
-
-```python
-checkpoint = torch.load(
-    "checkpoints/resnet18_best_adam.pth",
-    map_location=device
-)
-
-model_tl.load_state_dict(
-    checkpoint["model_state_dict"]
-)
-```
-
-## ResNet18 avec SGD
-
-```python
-checkpoint = torch.load(
-    "checkpoints/resnet18_best_sgd.pth",
-    map_location=device
-)
-
-model_tl_sgd.load_state_dict(
-    checkpoint["model_state_dict"]
-)
-```
-
-Après le rechargement, les modèles sont placés en mode évaluation :
-
-```python
-model.eval()
-```
+![Tableau comparatif](figures/comparaison_cnn_tl.png)
 
 ---
 
-# 28. Évaluation
+---
+Le CNN obtient des performances plus faibles que le Transfer Learning.
 
-L'évaluation finale est effectuée sur les 2 500 images du jeu de test.
+* CNN + Adam : accuracy validation = 70,69 %
+* CNN + SGD : accuracy validation = 69,51 %
+* Transfer Learning + Adam : accuracy validation = 97,78 %
+* Transfer Learning + SGD : accuracy validation = 98,04 %
 
-Les métriques calculées sont :
+Adam fonctionne légèrement mieux que SGD pour le CNN. Pour le Transfer Learning, SGD donne le meilleur résultat dans cette expérience.
 
-* Loss ;
-* Accuracy ;
-* Precision ;
-* Recall ;
-* matrice de confusion.
-
-Les modèles utilisés pour l'évaluation finale sont les checkpoints `best`.
-
-Le jeu de test n'intervient pas dans l'apprentissage ni dans la sélection du meilleur modèle.
-
+Globalement, le Transfer Learning est beaucoup plus performant que le CNN entraîné à partir de zéro.
 ---
 
-# 29. Figures
+# Figures
 
 Les résultats graphiques sont enregistrés dans :
 
@@ -921,13 +860,23 @@ figures/
 
 ## Accuracy
 
-### CNN
+### CNN et Transfer Learning
 
-![Accuracy CNN](figures/evaluation_accuracy_cnn.png)
+![Historique Accuracy](figures/historique_accuracy_cnn_tl.png)
 
-### Transfer Learning
+![Courbes Accuracy](figures/evaluation_accuracy_cnn_tl.png)
 
-![Accuracy Transfer Learning](figures/evaluation_accuracy_cnn_tl.png)
+---
+
+---
+
+## Analyse des résultats
+
+L’analyse de l’accuracy montre une différence nette entre le CNN from scratch et le Transfer Learning. Pour le CNN, la train accuracy progresse de 60,09 % à 71,21 % et la validation accuracy de 64,00 % à 70,56 % en dix epochs. La progression est régulière jusqu’aux dernières epochs, où les performances se stabilisent autour de 70–71 %. Cette évolution traduit un apprentissage progressif, mais relativement lent.
+
+Pour le Transfer Learning, la train accuracy est déjà élevée dès la première epoch, avec 87,91 %, puis atteint 90,67 % à la dixième epoch. La validation accuracy démarre à 97,02 % et atteint 98,04 %. Les performances se stabilisent autour de 98 % à partir de la cinquième epoch, avec de faibles variations sur les dernières epochs.
+
+Ainsi, le CNN from scratch présente une progression régulière mais lente, tandis que le Transfer Learning atteint rapidement un niveau de performance élevé et se stabilise plus tôt. Cette convergence plus rapide du Transfer Learning s’explique par l’utilisation des représentations déjà apprises par le modèle pré-entraîné, alors que le CNN from scratch doit apprendre ses caractéristiques directement à partir des images.
 
 ---
 
@@ -935,13 +884,73 @@ figures/
 
 ### CNN
 
-![Loss CNN](figures/evaluation_loss_cnn.png)
+![Historique Loss](figures/historique_loss_cnn_tl.png)
 
 ### Transfer Learning
 
-![Loss Transfer Learning](figures/evaluation_loss_cnn_tl.png)
+![Courbes Loss](figures/evaluation_loss_cnn_tl.png)
 
 ---
+
+## Analyse des résultats
+
+L'analyse des courbes de loss montre des comportements de convergence différents entre le CNN entraîné from scratch et le modèle utilisant le Transfer Learning. Le CNN from scratch présente une diminution progressive de la loss d'entraînement, passant de 0,6577 à 0,5615 en dix epochs. Sa validation loss diminue également, de 0,6237 à 0,5570, avec un minimum de 0,5560 atteint à la septième epoch. La diminution devient cependant faible à partir des dernières epochs, traduisant une stabilisation progressive de l'apprentissage.
+
+Le modèle en Transfer Learning présente une convergence plus rapide. Sa train loss passe de 0,3753 à 0,2072, tandis que sa validation loss diminue de 0,0931 à 0,0556. Le minimum de validation loss, égal à 0,0551, est atteint dès la cinquième epoch. Après cette epoch, la validation loss fluctue faiblement autour de 0,056, ce qui indique que le modèle atteint rapidement une zone de stabilisation.
+
+---
+
+
+# Rechargement du meilleur modéle
+
+## ResNet18 avec SGD
+
+```python
+checkpoint = torch.load(
+    "checkpoints/resnet18_best_sgd.pth",
+    map_location=device
+)
+
+model_tl_sgd.load_state_dict(
+    checkpoint["model_state_dict"]
+)
+```
+
+Après le rechargement, le modèle est placé en mode évaluation :
+
+```python
+model.eval()
+```
+
+---
+
+# 28. Évaluation 
+
+L'évaluation finale est effectuée sur les 2 500 images du jeu de test.
+
+Les métriques calculées sont :
+
+* Loss ;
+* Accuracy ;
+* Precision ;
+* Recall ;
+* matrice de confusion.
+
+Le modèle utilisés pour l'évaluation finale est resnet18_best_sgd.pth.
+
+Le jeu de test n'intervient pas dans l'apprentissage ni dans la sélection du meilleur modèle.
+
+## Métriques de l'évaluation finale
+
+![métriques jeu de test](figures/metriques_test.png)
+
+---
+
+---
+Sur l'ensemble de test, le modèle Transfer Learning retenu obtient une accuracy de 90,56 %, une précision de 96,94 %, un rappel de 83,76 % et une loss de 0,2076. Comparativement aux performances obtenues en validation, la baisse de l'accuracy et l'augmentation de la loss montrent que le modèle est moins performant sur les données de test, mais sa précision reste élevée.
+---
+
+
 
 ## Matrice de confusion
 
@@ -949,71 +958,14 @@ figures/
 
 ---
 
-# 30. Résultats
+---
+D'apres la matrice de confusion sur les 1250 images tests de chiens, 1047 ont ete bien classé par le modele soit un rappel de 83,76% et sur les 1250 images tests de chats 1217 ont été bien classé par le modéle soit un rappel de 97,36%. 
 
-Les performances finales des quatre expériences sont regroupées dans le tableau suivant.
-
-| Modèle                     | Optimiseur |   Test Loss |    Accuracy |   Precision |      Recall |
-| -------------------------- | ---------- | ----------: | ----------: | ----------: | ----------: |
-| CNN From Scratch           | Adam       | À compléter | À compléter | À compléter | À compléter |
-| CNN From Scratch           | SGD        | À compléter | À compléter | À compléter | À compléter |
-| ResNet18 Transfer Learning | Adam       | À compléter | À compléter | À compléter | À compléter |
-| ResNet18 Transfer Learning | SGD        | À compléter | À compléter | À compléter | À compléter |
-
-Les valeurs doivent être renseignées à partir de l'évaluation finale des checkpoints `best`.
-
+Sur les 1420 images de chats prédites par le modéle 808 ont été bien prédit soit une précision de 85,70% et sr les 1080 images de chiens prédies par le modéle 1047 ont été bien prédit par le modéle soit une précision de 96,94%. 
 ---
 
-# 31. Analyse des résultats
 
-Le CNN from scratch apprend directement les représentations visuelles à partir des images Cats vs Dogs. L'architecture utilise trois blocs convolutionnels ainsi que Batch Normalization et Dropout afin de stabiliser l'apprentissage et de limiter le surapprentissage. L'utilisation de l'augmentation des données permet également de fournir au modèle des variations des images originales.
-
-Le Transfer Learning avec ResNet18 exploite des représentations déjà apprises sur ImageNet. Dans cette expérimentation, le backbone est gelé et seule la nouvelle tête de classification est entraînée. Cette stratégie permet de réduire le nombre de paramètres effectivement optimisés tout en bénéficiant des représentations apprises par le modèle pré-entraîné.
-
-La comparaison entre Adam et SGD permet d'observer l'influence de l'optimiseur sur la convergence. Adam utilise un learning rate de 0.001 tandis que SGD utilise un learning rate de 0.01 avec un momentum de 0.9. Le scheduler StepLR réduit le learning rate tous les trois epochs. Les résultats finaux doivent être analysés conjointement avec les courbes de Loss, Accuracy, Precision et Recall afin d'observer non seulement la performance finale mais également le comportement des modèles pendant l'apprentissage.
-
----
-
-# 32. Analyse du surapprentissage
-
-Les courbes d'entraînement et de validation permettent d'identifier un éventuel surapprentissage.
-
-Un écart important entre la performance d'entraînement et celle de validation peut indiquer que le modèle apprend trop spécifiquement les données d'entraînement.
-
-De même, une diminution continue de la Training Loss accompagnée d'une augmentation de la Validation Loss peut être un signe de surapprentissage.
-
-Plusieurs mécanismes sont utilisés dans ce projet pour limiter ce phénomène :
-
-* Data Augmentation ;
-* Batch Normalization ;
-* Dropout ;
-* validation ;
-* sélection du meilleur checkpoint.
-
----
-
-# 33. Comparaison des deux approches
-
-| Critère                   | CNN From Scratch     | Transfer Learning |
-| ------------------------- | -------------------- | ----------------- |
-| Architecture              | CNN personnalisé     | ResNet18          |
-| Pré-entraînement          | Non                  | ImageNet          |
-| Représentations initiales | Apprises depuis zéro | Pré-apprises      |
-| Backbone                  | —                    | ResNet18          |
-| Backbone gelé             | —                    | Oui               |
-| BatchNorm                 | Oui                  | Oui               |
-| Dropout                   | 0.5                  | 0.5               |
-| Data Augmentation         | Oui                  | Oui               |
-| Normalisation ImageNet    | Non                  | Oui               |
-| Optimiseurs               | Adam / SGD           | Adam / SGD        |
-| Batch size                | 32                   | 32                |
-| Epochs                    | 10                   | 10                |
-| Scheduler                 | StepLR               | StepLR            |
-| Loss                      | CrossEntropyLoss     | CrossEntropyLoss  |
-
----
-
-# 34. Limites
+# Limites
 
 Les principales limites de l'expérimentation sont :
 
@@ -1030,11 +982,11 @@ Les principales limites de l'expérimentation sont :
 
 ---
 
-# 35. Pistes d'amélioration
+# Pistes d'amélioration
 
 Plusieurs améliorations peuvent être envisagées.
 
-## 35.1 Recherche d'hyperparamètres
+## Recherche d'hyperparamètres
 
 Tester différentes valeurs de :
 
@@ -1057,11 +1009,11 @@ Learning rate :
 0.01
 ```
 
-## 35.2 Fine-tuning
+## Fine-tuning
 
 Après l'entraînement de la nouvelle tête de ResNet18, certaines couches du backbone pourraient être dégelées progressivement afin d'adapter les représentations aux images Cats vs Dogs.
 
-## 35.3 Autres architectures
+## Autres architectures
 
 Tester d'autres modèles pré-entraînés :
 
@@ -1070,7 +1022,7 @@ Tester d'autres modèles pré-entraînés :
 * EfficientNet ;
 * DenseNet.
 
-## 35.4 Data Augmentation
+## Data Augmentation
 
 Tester des transformations supplémentaires :
 
@@ -1079,13 +1031,13 @@ Tester des transformations supplémentaires :
 * RandomGrayscale ;
 * RandomErasing.
 
-## 35.5 Analyse des erreurs
+## Analyse des erreurs
 
 Une analyse des images mal classées permettrait d'identifier les types d'images qui posent le plus de difficultés aux modèles.
 
 ---
 
-# 36. Fichiers générés
+# Fichiers générés
 
 Le projet produit plusieurs types de fichiers.
 
@@ -1120,7 +1072,7 @@ contiennent les informations générées pendant les expérimentations correspon
 
 ---
 
-# 37. Versionnement
+# Versionnement
 
 Les fichiers temporaires et certains fichiers volumineux ne doivent pas être versionnés.
 
@@ -1134,7 +1086,7 @@ est utilisé pour exclure notamment les fichiers qui ne sont pas nécessaires au
 
 ---
 
-# 38. Auteur
+# Auteur
 
 **Sékou Dramé**
 
