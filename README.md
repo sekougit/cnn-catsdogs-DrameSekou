@@ -1463,7 +1463,6 @@ Sur l'ensemble de test, le modèle Transfer Learning retenu obtient une accuracy
 ---
 
 
-
 ## Matrice de confusion
 
 ![Matrice de confusion CNN](figures/matrice_confusion.png)
