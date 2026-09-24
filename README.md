@@ -1341,8 +1341,6 @@ Les checkpoints permettent également de reprendre l'entraînement après une in
 ![Tableau comparatif](figures/comparaison_cnn_tl.png)
 
 ---
-
----
 Le CNN obtient des performances plus faibles que le Transfer Learning.
 
 * CNN + Adam : accuracy validation = 70,69 %
@@ -1461,8 +1459,6 @@ Le jeu de test n'intervient pas dans l'apprentissage ni dans la sélection du me
 ![métriques jeu de test](figures/metriques_test.png)
 
 ---
-
----
 Sur l'ensemble de test, le modèle Transfer Learning retenu obtient une accuracy de 90,56 %, une précision de 96,94 %, un rappel de 83,76 % et une loss de 0,2076. Comparativement aux performances obtenues en validation, la baisse de l'accuracy et l'augmentation de la loss montrent que le modèle est moins performant sur les données de test, mais sa précision reste élevée.
 ---
 
@@ -1471,8 +1467,6 @@ Sur l'ensemble de test, le modèle Transfer Learning retenu obtient une accuracy
 ## Matrice de confusion
 
 ![Matrice de confusion CNN](figures/matrice_confusion.png)
-
----
 
 ---
 D'apres la matrice de confusion sur les 1250 images tests de chiens, 1047 ont ete bien classé par le modele soit un rappel de 83,76% et sur les 1250 images tests de chats 1217 ont été bien classé par le modéle soit un rappel de 97,36%. 
