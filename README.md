@@ -44,6 +44,149 @@ Les objectifs du projet sont les suivants :
 
 ---
 
+---
+## Récapitulatif de la methodologie
+
+### 1. Préparation de l’environnement
+
+* Création de l’environnement virtuel.
+* Activation de l’environnement virtuel.
+* Définition de l’environnement virtuel comme kernel Jupyter.
+* Création du fichier `requirements.txt`.
+* Installation des bibliothèques à partir de `requirements.txt`.
+
+### 2. Initialisation du projet
+
+* Importation des bibliothèques nécessaires.
+* Configuration des répertoires pour :
+
+  * les checkpoints ;
+  * les figures ;
+  * les historiques.
+* Fixation du `seed = 42` pour assurer la reproductibilité.
+* Détection du `device` : GPU CUDA si disponible, sinon CPU.
+
+### 3. Préparation des données
+
+* Chargement des données d’entraînement et de test.
+* Séparation des données d’entraînement en :
+
+  * données d’entraînement ;
+  * données de validation.
+* Utilisation du même `seed` pour garantir un split reproductible.
+* Sauvegarde des indices des données d’entraînement et de validation.
+* Application des transformations :
+
+  * augmentation des données pour l’entraînement ;
+  * pas d’augmentation pour la validation et le test.
+
+### 4. CNN From Scratch
+
+* Construction de l’architecture CNN.
+* Utilisation de :
+
+  * 3 blocs convolutionnels ;
+  * Batch Normalization ;
+  * MaxPooling ;
+  * Dropout de 50 %.
+* Définition de la fonction de perte.
+* Définition du scheduler.
+
+### 5. Entraînement du CNN avec Adam
+
+* Définition de l’optimiseur Adam.
+* Entraînement pendant 10 epochs.
+* À chaque epoch :
+
+  * calcul de la loss et de l’accuracy sur les données d’entraînement ;
+  * calcul de la loss, de l’accuracy, de la précision et du recall sur les données de validation.
+* Comparaison avec le meilleur résultat obtenu jusque-là.
+* Sauvegarde du meilleur modèle dans `BEST.pth`.
+* Sauvegarde du dernier état du modèle dans `LAST.pth`.
+* Enregistrement de l’historique des métriques dans un fichier Excel.
+
+### 6. Entraînement du CNN avec SGD
+
+* Définition de l’optimiseur SGD.
+* Utilisation du même processus d’entraînement.
+* Entraînement pendant 10 epochs.
+* Calcul des métriques sur les données d’entraînement et de validation à chaque epoch.
+* Sauvegarde du meilleur modèle dans `BEST.pth`.
+* Sauvegarde du dernier état du modèle dans `LAST.pth`.
+* Enregistrement de l’historique des métriques dans un fichier Excel.
+* Comparaison des résultats du CNN avec Adam et avec SGD.
+* Sélection du meilleur CNN selon l’accuracy de validation.
+
+### 7. Transfer Learning avec ResNet18
+
+* Utilisation du même dataset.
+* Réutilisation du même split entraînement/validation.
+* Utilisation des indices précédemment sauvegardés.
+* Ajout de la normalisation ImageNet aux transformations.
+* Chargement de ResNet18 pré-entraîné sur ImageNet.
+* Remplacement de la couche finale pour effectuer une classification à 2 classes :
+
+  * Chat ;
+  * Chien.
+* Ajout de :
+
+  * Batch Normalization ;
+  * Dropout de 50 %.
+* Gel des couches pré-entraînées de ResNet18.
+* Entraînement uniquement de la nouvelle couche finale.
+
+### 8. Entraînement de ResNet18 avec Adam
+
+* Définition de la fonction de perte.
+* Définition de l’optimiseur Adam.
+* Définition du scheduler.
+* Entraînement pendant 10 epochs.
+* Calcul des métriques sur les données d’entraînement et de validation.
+* Sauvegarde du meilleur modèle dans `BEST.pth`.
+* Sauvegarde du dernier état du modèle dans `LAST.pth`.
+* Enregistrement de l’historique des métriques dans un fichier Excel.
+
+### 9. Entraînement de ResNet18 avec SGD
+
+* Définition de l’optimiseur SGD.
+* Utilisation du même processus d’entraînement.
+* Entraînement pendant 10 epochs.
+* Calcul des métriques sur les données d’entraînement et de validation.
+* Sauvegarde du meilleur modèle dans `BEST.pth`.
+* Sauvegarde du dernier état du modèle dans `LAST.pth`.
+* Enregistrement de l’historique des métriques dans un fichier Excel.
+* Comparaison des résultats de ResNet18 avec Adam et avec SGD.
+* Sélection du meilleur ResNet18 selon l’accuracy de validation.
+
+### 10. Comparaison CNN vs Transfer Learning
+
+* Comparaison des deux meilleures configurations obtenues.
+* Construction des courbes de loss :
+
+  * entraînement ;
+  * validation.
+* Construction des courbes d’accuracy :
+
+  * entraînement ;
+  * validation.
+* Analyse des performances du CNN et de ResNet18.
+* Comparaison de la convergence des deux approches.
+
+### 11. Évaluation finale
+
+* Sélection du meilleur modèle.
+* Rechargement du checkpoint sauvegardé.
+* Évaluation du modèle sur les données de test.
+* Calcul des métriques :
+
+  * loss ;
+  * accuracy ;
+  * précision ;
+  * recall.
+* Construction de la matrice de confusion.
+* Analyse des erreurs de classification.
+---
+
 # Environnement
 
 ## 3.1 Technologies utilisées
@@ -94,62 +237,108 @@ Sinon, l'entraînement est effectué sur CPU.
 
 ---
 
-# Organisation du projet
-
-L'arborescence actuelle du projet est :
+## Structure du projet
 
 ```text
-.
+│   .gitignore
+│   base_history_metriques_adam_train_val.xlsx
+│   base_history_metriques_sgd_train_val.xlsx
+│   base_history_metriques_tl_adam_train_val.xlsx
+│   base_history_metriques_tl_sgd_train_val.xlsx
+│   comparaison-cnn-tl.xlsx
+│   notebook.ipynb
+│   README.md
+│   requirements.txt
 │
-├── .gitignore
-├── README.md
-├── requirements.txt
-├── notebook.ipynb
+├───checkpoints
+│       resnet18_best_adam.pth
+│       resnet18_best_sgd.pth
+│       resnet18_last_adam.pth
+│       resnet18_last_sgd.pth
+│       scratch_cnn_best_adam.pth
+│       scratch_cnn_best_sgd.pth
+│       scratch_cnn_last_adam.pth
+│       scratch_cnn_last_sgd.pth
 │
-├── base_history_metriques_adam_train_val.xlsx
-├── base_history_metriques_sgd_train_val.xlsx
-├── base_history_metriques_tl_adam_train_val.xlsx
-├── base_history_metriques_tl_sgd_train_val.xlsx
+├───data
+│   ├───test
+│   │   ├───cat
+│   │   └───dog
+│   └───train
+│       ├───cat
+│       └───dog
 │
-├── checkpoints/
-│   ├── resnet18_best_adam.pth
-│   ├── resnet18_best_sgd.pth
-│   ├── resnet18_last_adam.pth
-│   ├── resnet18_last_sgd.pth
-│   ├── scratch_cnn_best_adam.pth
-│   ├── scratch_cnn_best_sgd.pth
-│   ├── scratch_cnn_last_adam.pth
-│   └── scratch_cnn_last_sgd.pth
-│
-├── data/
-│   ├── train/
-│   │   ├── cat/
-│   │   └── dog/
-│   │
-│   └── test/
-│       ├── cat/
-│       └── dog/
-│
-├── figures/
-│   ├── evaluation_accuracy_cnn.png
-│   ├── evaluation_accuracy_cnn_tl.png
-│   ├── evaluation_loss_cnn.png
-│   ├── evaluation_loss_cnn_tl.png
-│   └── matrice_confusion_cnn.png
-│
-├── runs/
-│   ├── cnn_from_scratch/
-│   └── cnn_from_scratch_sgd/
-│
-└── __pycache__/
+├───figures
+│       comparaison_cnn_tl.png
+│       evaluation_accuracy_cnn_tl.png
+│       evaluation_loss_cnn_tl.png
+│       historiques_entrainement_cnn.png
+│       historiques_entrainement_tl.png
+│       historique_accuracy_cnn_tl.png
+│       historique_loss_cnn_tl.png
+│       matrice_confusion.png
+│       metriques_test.png
 ```
 
-Le fichier principal contenant les expérimentations est :
+### Description des fichiers et répertoires
 
-```text
-notebook.ipynb
-```
+* `notebook.ipynb` : notebook principal contenant le code du projet, de la préparation des données jusqu'à l'évaluation finale.
 
+* `requirements.txt` : liste des bibliothèques Python nécessaires pour exécuter le projet.
+
+* `README.md` : documentation du projet, de la méthodologie et des résultats.
+
+* `.gitignore` : fichiers et répertoires exclus du suivi Git.
+
+### Dossier `data/`
+
+Contient les données utilisées pour l'entraînement et l'évaluation :
+
+* `data/train/cat/` : images de chats destinées à l'entraînement et à la validation.
+* `data/train/dog/` : images de chiens destinées à l'entraînement et à la validation.
+* `data/test/cat/` : images de chats destinées au test final.
+* `data/test/dog/` : images de chiens destinées au test final.
+
+### Dossier `checkpoints/`
+
+Contient les modèles sauvegardés pendant les entraînements :
+
+* `scratch_cnn_best_adam.pth` : meilleur modèle CNN entraîné avec Adam.
+* `scratch_cnn_best_sgd.pth` : meilleur modèle CNN entraîné avec SGD.
+* `scratch_cnn_last_adam.pth` : dernier état du CNN entraîné avec Adam.
+* `scratch_cnn_last_sgd.pth` : dernier état du CNN entraîné avec SGD.
+* `resnet18_best_adam.pth` : meilleur modèle ResNet18 entraîné avec Adam.
+* `resnet18_best_sgd.pth` : meilleur modèle ResNet18 entraîné avec SGD.
+* `resnet18_last_adam.pth` : dernier état de ResNet18 entraîné avec Adam.
+* `resnet18_last_sgd.pth` : dernier état de ResNet18 entraîné avec SGD.
+
+Les fichiers `best` permettent de recharger le meilleur modèle obtenu selon l'accuracy de validation.
+
+Les fichiers `last` permettent de reprendre l'entraînement à partir du dernier état sauvegardé.
+
+### Dossier `figures/`
+
+Contient les graphiques générés pendant l'analyse :
+
+* `comparaison_cnn_tl.png` : comparaison globale entre le CNN et le Transfer Learning.
+* `evaluation_accuracy_cnn_tl.png` : comparaison des accuracy.
+* `evaluation_loss_cnn_tl.png` : comparaison des loss.
+* `historiques_entrainement_cnn.png` : historiques d'entraînement du CNN.
+* `historiques_entrainement_tl.png` : historiques d'entraînement du Transfer Learning.
+* `historique_accuracy_cnn_tl.png` : évolution de l'accuracy du CNN et du Transfer Learning.
+* `historique_loss_cnn_tl.png` : évolution de la loss du CNN et du Transfer Learning.
+* `matrice_confusion.png` : matrice de confusion obtenue sur les données de test.
+* `metriques_test.png` : représentation graphique des métriques obtenues sur le test.
+
+### Fichiers Excel
+
+Les fichiers Excel contiennent les historiques des métriques calculées pendant les entraînements :
+
+* `base_history_metriques_adam_train_val.xlsx` : historique du CNN avec Adam.
+* `base_history_metriques_sgd_train_val.xlsx` : historique du CNN avec SGD.
+* `base_history_metriques_tl_adam_train_val.xlsx` : historique de ResNet18 avec Adam.
+* `base_history_metriques_tl_sgd_train_val.xlsx` : historique de ResNet18 avec SGD.
+* `comparaison-cnn-tl.xlsx` : comparaison des performances des différentes configurations.
 ---
 
 # Organisation des données
@@ -749,6 +938,333 @@ Comparaison avec le meilleur modèle
 Les métriques sont enregistrées à chaque epoch.
 
 Les historiques des différentes expériences sont également exportés dans des fichiers Excel.
+
+```python
+
+EPOCHS = 10
+
+best_path_adam = os.path.join(CHECKPOINT_DIR, "scratch_cnn_best_adam.pth")
+last_path_adam = os.path.join(CHECKPOINT_DIR, "scratch_cnn_last_adam.pth")
+
+history = {
+    "train_loss": [], "val_loss": [],
+    "train_accuracy": [], "val_accuracy": [],
+    "val_precision": [], "val_recall": [],
+    "learning_rate": []
+}
+
+start_epoch = 0
+best_val_accuracy = 0.0
+
+
+if os.path.exists(last_path_adam):
+
+    checkpoint = torch.load(last_path_adam, map_location=device)
+
+    model.load_state_dict(checkpoint["model_state_dict"])
+    optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
+    scheduler.load_state_dict(checkpoint["scheduler_state_dict"])
+
+    history = checkpoint["history"]
+    start_epoch = checkpoint["epoch"]
+    best_val_accuracy = checkpoint["best_val_accuracy"]
+
+    print(f"Reprise à l'epoch {start_epoch + 1}")
+    print(f"Meilleure Val Accuracy : {best_val_accuracy:.4f}")
+
+else:
+    print("Nouvel entraînement.")
+
+
+# ============================================================
+# ENTRAÎNEMENT
+# ============================================================
+
+for epoch in range(start_epoch, EPOCHS):
+
+    # ========================================================
+    # TRAIN
+    # ========================================================
+
+    model.train()
+
+    train_loss = 0.0
+    train_correct = 0
+    train_total = 0
+
+    current_lr = optimizer.param_groups[0]["lr"]
+
+    for images, labels in tqdm(
+        trainloader,
+        desc=f"Epoch {epoch + 1}/{EPOCHS} - Train"
+    ):
+
+        # Envoyer les données vers le GPU/CPU
+        images = images.to(
+            device,
+            non_blocking=True
+        )
+
+        labels = labels.to(
+            device,
+            non_blocking=True
+        )
+
+        # Réinitialiser les gradients
+        optimizer.zero_grad(
+            set_to_none=True
+        )
+
+        # Forward
+        outputs = model(images)
+
+        # Calcul de la loss
+        loss = criterion(
+            outputs,
+            labels
+        )
+
+        # Backpropagation
+        loss.backward()
+
+        # Mise à jour des poids
+        optimizer.step()
+
+        # Statistiques
+        train_loss += (
+            loss.item() * images.size(0)
+        )
+
+        train_correct += (
+            outputs.argmax(1) == labels
+        ).sum().item()
+
+        train_total += labels.size(0)
+
+    # Loss moyenne
+    train_loss /= train_total
+
+    # Accuracy
+    train_accuracy = (
+        train_correct / train_total
+    )
+
+    # ========================================================
+    # VALIDATION
+    # ========================================================
+
+    model.eval()
+
+    val_loss = 0.0
+
+    val_predictions = []
+    val_labels = []
+
+    with torch.inference_mode():
+
+        for images, labels in tqdm(
+            valloader,
+            desc=f"Epoch {epoch + 1}/{EPOCHS} - Val"
+        ):
+
+            images = images.to(
+                device,
+                non_blocking=True
+            )
+
+            labels = labels.to(
+                device,
+                non_blocking=True
+            )
+
+            # Forward
+            outputs = model(images)
+
+            # Loss
+            loss = criterion(
+                outputs,
+                labels
+            )
+
+            val_loss += (
+                loss.item() * images.size(0)
+            )
+
+            # Prédictions
+            predictions = outputs.argmax(1)
+
+            val_predictions.extend(
+                predictions.cpu().numpy()
+            )
+
+            val_labels.extend(
+                labels.cpu().numpy()
+            )
+
+    # Loss validation
+    val_loss /= len(val_data)
+
+    # Métriques validation
+    val_accuracy = accuracy_score(
+        val_labels,
+        val_predictions
+    )
+
+    val_precision = precision_score(
+        val_labels,
+        val_predictions,
+        zero_division=0
+    )
+
+    val_recall = recall_score(
+        val_labels,
+        val_predictions,
+        zero_division=0
+    )
+
+    # ========================================================
+    # HISTORIQUE
+    # ========================================================
+
+    history["train_loss"].append(
+        train_loss
+    )
+
+    history["val_loss"].append(
+        val_loss
+    )
+
+    history["train_accuracy"].append(
+        train_accuracy
+    )
+
+    history["val_accuracy"].append(
+        val_accuracy
+    )
+
+    history["val_precision"].append(
+        val_precision
+    )
+
+    history["val_recall"].append(
+        val_recall
+    )
+
+    history["learning_rate"].append(
+        current_lr
+    )
+
+    # ========================================================
+    # AFFICHAGE
+    # ========================================================
+
+    print(
+        f"\nEpoch {epoch + 1}/{EPOCHS}"
+    )
+
+    print(
+        f"Train Loss      : {train_loss:.4f}"
+    )
+
+    print(
+        f"Train Accuracy  : {train_accuracy:.4f}"
+    )
+
+    print(
+        f"Val Loss        : {val_loss:.4f}"
+    )
+
+    print(
+        f"Val Accuracy    : {val_accuracy:.4f}"
+    )
+
+    print(
+        f"Val Precision   : {val_precision:.4f}"
+    )
+
+    print(
+        f"Val Recall      : {val_recall:.4f}"
+    )
+
+    print(
+        f"Learning Rate   : {current_lr:.6f}"
+    )
+
+    # ========================================================
+    # MEILLEUR MODÈLE
+    # ========================================================
+
+    if val_accuracy > best_val_accuracy:
+
+        best_val_accuracy = val_accuracy
+
+        torch.save(
+            {
+                "epoch": epoch + 1,
+
+                "model_state_dict":
+                    model.state_dict(),
+
+                "optimizer_state_dict":
+                    optimizer.state_dict(),
+
+                "scheduler_state_dict":
+                    scheduler.state_dict(),
+
+                "best_val_accuracy":
+                    best_val_accuracy,
+
+                "history":
+                    history
+            },
+            best_path_adam
+        )
+
+        print(
+            ">>> Nouveau meilleur modèle sauvegardé."
+        )
+
+    # ========================================================
+    # SCHEDULER
+    # ========================================================
+
+    scheduler.step()
+
+    # ========================================================
+    # DERNIER ÉTAT
+    # ========================================================
+
+    torch.save(
+        {
+            "epoch": epoch + 1,
+
+            "model_state_dict":
+                model.state_dict(),
+
+            "optimizer_state_dict":
+                optimizer.state_dict(),
+
+            "scheduler_state_dict":
+                scheduler.state_dict(),
+
+            "best_val_accuracy":
+                best_val_accuracy,
+
+            "history":
+                history
+        },
+        last_path_adam
+    )
+
+    print(
+        f">>> Epoch {epoch + 1} sauvegardée."
+    )
+
+
+```
+
+
+
 
 ---
 
