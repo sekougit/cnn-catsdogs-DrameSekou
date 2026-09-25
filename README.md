@@ -219,7 +219,7 @@ pip install -r requirements.txt
 
 ---
 
-#  Utilisation du GPU
+#  Utilisation du CPU
 
 Le programme détecte automatiquement le périphérique disponible :
 
@@ -1396,11 +1396,10 @@ Ainsi, le CNN from scratch présente une progression régulière mais lente, tan
 
 ## Loss
 
-### CNN
+### CNN et transfert learning
 
 ![Historique Loss](figures/historique_loss_cnn_tl.png)
 
-### Transfer Learning
 
 ![Courbes Loss](figures/evaluation_loss_cnn_tl.png)
 
