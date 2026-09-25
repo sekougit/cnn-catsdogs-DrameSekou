@@ -341,6 +341,12 @@ Les fichiers Excel contiennent les historiques des métriques calculées pendant
 * `comparaison-cnn-tl.xlsx` : comparaison des performances des différentes configurations.
 ---
 
+# Jeu de données
+
+Nous utiliserons le [jeu de données Dogs vs. Cats](https://www.kaggle.com/c/dogs-vs-cats), disponible sur **Kaggle**.
+
+Ce jeu de données contient des images de chats et de chiens qui seront utilisées pour entraîner et évaluer nos modèles de classification d’images.
+
 # Organisation des données
 
 Les données sont placées dans le dossier :
